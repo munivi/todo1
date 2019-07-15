@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h2>SISTEMA KARDEX </h2> 
+  <p>INVENTARIO</p>
+  <table class="table" id="productos_table">
+    <thead class="thead-dark">
+      <tr>
+        <th>id</th>
+        <th>Codigo</th>
+        <th>Descripcion</th>
+		<th>Marca</th>
+        <th>Stock</th>
+		<th>Ingreso</th>
+		<th>Salida</th>
+      </tr>
+	  </thead>  
+  </table>
+ 
+</div>
+
+</body>
+<script> 
+$(document).ready(function() {
+    $.ajax({
+		type: "GET",
+        url: "http://localhost:8082/v1/api/productos",
+		headers: {  'Access-Control-Allow-Origin': 'http://localhost:8082/v1/api/productos' },
+    }).then(function(data) {
+		var productos_table = '';
+	$.each(data,function(key,value){
+		productos_table += '<tr>';
+		productos_table += '<td>'+ value.id+'</td>';
+		productos_table += '<td>'+ value.codProducto+'</td>';
+		productos_table += '<td>'+ value.descripcion+'</td>';
+		productos_table += '<td>'+ value.marca+'</td>';
+		productos_table += '<td>'+ value.stock+'</td>';
+		productos_table += '<td><button type="button" class="btn btn-outline-dark ingreso" onclick="irIngreso()" id='+ value.id +'>'+'Ingreso'+'</button></td>';
+		productos_table += '<td><button type="button" class="btn btn-outline-dark salida" onclick="irSalida()" id='+ value.id +'>'+ 'Salida'+'</button></td>';
+		});
+       $('#productos_table').append(productos_table);
+    });
+	
+});
+</script>
+<script>
+
+function irIngreso(){
+		var id;
+		var e = e || window.event;
+		e = e.target || e.srcElement;
+		if (e.nodeName === 'BUTTON') {
+			id= e.id
+		}
+		var path = window.location.href.substring(0,window.location.href.lastIndexOf("/"));
+		localStorage.setItem("id", id);
+		window.location.href = path + "/ingreso.html?id="+ id;
+  }
+  function irSalida(){
+  var id;
+		var e = e || window.event;
+		e = e.target || e.srcElement;
+		if (e.nodeName === 'BUTTON') {
+			id= e.id
+		}
+		var path = window.location.href.substring(0,window.location.href.lastIndexOf("/"));
+		localStorage.setItem("id", id);
+		window.location.href = path + "/salida.html?id="+ id;
+         }
+</script>
+</html>
