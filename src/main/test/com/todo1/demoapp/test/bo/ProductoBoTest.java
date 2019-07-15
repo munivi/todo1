@@ -59,7 +59,7 @@ public class ProductoBoTest {
 
 		verify(productoMapper, times(1)).toModel(productoDto);
 		verify(productoService, times(1)).agregarProducto(producto);
-		sut.buscarProductosPorId(productoDto);
+		sut.productosPorId(productoDto.getId());
 
 	}
 
@@ -83,7 +83,7 @@ public class ProductoBoTest {
 		Mockito.when(productoMapper.toModel(productoDTO)).thenReturn(producto);
 		sut.guardarProducto(productoDTO);
 		verify(productoService, times(1)).buscarProductosPorId(producto.getId());
-		sut.buscarProductosPorId(productoDTO);
+		sut.productosPorId(productoDTO.getId());
 
 	}
 
@@ -98,7 +98,7 @@ public class ProductoBoTest {
 		Mockito.when(productoMapper.toModel(productoDTO)).thenReturn(producto);
 		sut.agregarStockProducto(productoDTO);
 		verify(productoService, times(1)).buscarProductosPorId(producto.getId());
-		sut.buscarProductosPorId(productoDTO);
+		sut.productosPorId(productoDTO.getId());
 
 	}
 
@@ -113,7 +113,7 @@ public class ProductoBoTest {
 		Mockito.when(productoMapper.toModel(productoDTO)).thenReturn(producto);
 		sut.agregarStockProducto(productoDTO);
 		verify(productoService, times(1)).buscarProductosPorId(producto.getId());
-		sut.buscarProductosPorId(productoDTO);
+		sut.productosPorId(productoDTO.getId());
 
 	}
 

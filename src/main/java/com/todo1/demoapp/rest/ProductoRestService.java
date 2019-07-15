@@ -7,7 +7,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +27,7 @@ import com.todo1.demoapp.dto.ProductoDTO;
  * @author Usuario
  *
  */
+@CrossOrigin
 @RestController
 public class ProductoRestService {
 	/**
@@ -43,7 +46,7 @@ public class ProductoRestService {
 	 * @param productoDTO
 	 * @return
 	 */
-	@PostMapping("/v1/api/productos")
+    @PostMapping("/v1/api/productos")
 	public ResponseEntity<ProductoDTO> addProducto(@RequestBody ProductoDTO productoDTO) {
 		logger.debug("Ingrese al metodo addProducto correctamente");
 		ProductoDTO productoResponse = productoBo.guardarProducto(productoDTO);
@@ -56,18 +59,29 @@ public class ProductoRestService {
 	 * metodo que consulta el listado de productos
 	 * @return ResponseEntity con los productos  adentro
 	 */
-	@GetMapping(name = "/v1/api/productos")
+	@GetMapping("/v1/api/productos")
 	public ResponseEntity<List<ProductoDTO>> listarProductos() {
 		logger.debug("Ingrese al metodo Listar productos correctamente");
 		return ResponseEntity.ok(productoBo.buscarProductos());
 	}
 
+
+	/**
+	 * metodo que consulta el listado de productos
+	 * @return ResponseEntity con los productos  adentro
+	 */
+	@GetMapping("/v1/api/productos/{id}")
+	public ResponseEntity<ProductoDTO> listarProductosById(@PathVariable Long id) {
+		logger.debug("Ingrese al metodo Listar productos correctamente");
+		return ResponseEntity.ok(productoBo.productosPorId(id));
+	}
+	
 	/**
 	 * Metodo para actualizar el stock de un producto
 	 * @param productoDTO
 	 * @return
 	 */
-	@PutMapping(path="/v1/api/productos/agregar")
+    @PutMapping("/v1/api/productos/agregar")
 	public ResponseEntity<ProductoDTO> agregarStock (@RequestBody ProductoDTO productoDTO) {
 		logger.debug("Ingrese al metodo agregarStock correctamente");
 		return ResponseEntity.ok(productoBo.agregarStockProducto(productoDTO));
@@ -78,7 +92,7 @@ public class ProductoRestService {
 	 * @param productoDTO
 	 * @return
 	 */
-	@RequestMapping(path="/v1/api/productos/eliminar", method=RequestMethod.PUT)
+    @PutMapping("/v1/api/productos/eliminar")
 	public ResponseEntity<ProductoDTO> eliminarStock (@RequestBody ProductoDTO productoDTO) {
 		logger.debug("Ingrese al metodo agregarStock correctamente");
 		return ResponseEntity.ok(productoBo.eliminarStockProducto(productoDTO));

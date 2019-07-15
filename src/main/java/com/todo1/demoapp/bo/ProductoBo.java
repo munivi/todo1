@@ -59,9 +59,9 @@ public class ProductoBo {
 	 * @param productoDTO
 	 * @return
 	 */
-	public ProductoDTO buscarProductosPorId(ProductoDTO productoDTO) {
+	public ProductoDTO productosPorId(long id) {
 		logger.debug("entrando al metodo buscarProductosPorId");
-		return productoMapper.toBean(productoService.buscarProductosPorId(productoDTO.getId()));
+		return productoMapper.toBean(productoService.buscarProductosPorId(id));
 	}
 
 	/**
